@@ -22,12 +22,12 @@ app.get('/login',(req,res) => {
 app.get('/signup',(req,res) => {
   res.render('signup.hbs',{
     name: 'Qasim Ali',
-    phone: +923235168638
+    phone: '+923235168638'
   });
 })
 
 app.get('/willingess',(req,res) => {
-  res.status(200).render('willingess.hbs');
+  res.render('willingness.hbs');
 })
 
 app.post('/locals',(req,res) => {

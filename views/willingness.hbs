@@ -8,27 +8,36 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="toggle.css">
 
   <title>Login - Help!</title>
 </head>
 
-<body class="bg-primary">
+<body class="bg-primary p-0">
 
-  <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
+  <div id="mainBlock" class="d-md-flex align-items-center justify-content-center border">
 
-        <div class="card col-md-3 col-6" >
+      <div class="contentBlock">
+          <p class="p-1 lead text-light font-weight-bold text-center">I am willing to...</p>
+        <div class="card col-md-4 col-6 m-2" >
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <h5 class="card-title">Speak English</h5>
+            <p class="card-text">Speak english for somebody who is in trouble and is not very thorough in it.</p>
+            <div class="can-toggle demo-rebrand-1">
+              <input id="d" type="checkbox">
+              <label for="d">
+                <div class="can-toggle__switch" data-checked="Yes" data-unchecked="No"></div>
+              </label>
+            </div>
           </div>
         </div>
-
         <div class="text-center">
             <a href="/home" class="btn btn-outline-light my-2 shadow">Thanks - Proceed to help page.</a>
         </div>
+      </div>
+
+
+
 
       </div>
   </div>
