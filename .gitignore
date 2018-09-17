@@ -1,4 +1,4 @@
 node_modules/
 static/.sass-cache
-main.css.map
-main.scss
+static/main.css.map
+static/main.scss
