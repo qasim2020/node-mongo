@@ -1,4 +1,7 @@
 node_modules/
 static/.sass-cache
+.sass-cache
+static/main.css
 static/main.css.map
-static/main.scss
+static/toggle.css
+static/toggle.css.map
