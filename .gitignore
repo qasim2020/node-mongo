@@ -1,6 +1,6 @@
 node_modules/
 static/.sass-cache
-.sass-cache
+.sass-cache/
 static/main.css
 static/main.css.map
 static/toggle.css
