@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="main.css">
+
+  <title>Login - Help!</title>
+</head>
+
+<body class="bg-primary">
+
+  <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
+      <div class="col-md-6 col-12">
+        <div class="bg-light py-2 px-4 rounded shadow">
+          <p class="lead">Welcome sir {{name}} to making - <b>willingness</b></p>
+          <form>
+            <div class="form-group">
+              <label for="password">Your name</label>
+              <input type="text" class="form-control" id="name" aria-describedby="name" disabled value="{{name}}">
+            </div>
+            <div class="form-group">
+              <label for="phone">Your phone number</label>
+              <input type="number" class="form-control" id="phone" value="{{phone}}" disabled>
+            </div>
+            <div class="form-group">
+              <label for="withMeAt">We were together at</label>
+              <input type="text" class="form-control" id="withMeAt" placeholder="Superior Science College Muzaffar Garh">
+            </div>
+            <div class="form-group">
+              <label for="memorableOccasionWithMe">Any memorable event we had (optional)</label>
+              <input type="text" class="form-control" id="memorableOccasionWithMe" placeholder="We travelled on train brasta DI Khan and it was fuss.">
+            </div>
+            <div class="form-group">
+              <label for="currentAddress">What is your current address (approximate)</label>
+              <input type="text" class="form-control" id="currentAddress" placeholder="Milan, Italy">
+            </div>
+            <div class="form-group">
+              <label for="availForHelp">I am available for help</label>
+              <select class="form-control" id="availForHelp">
+                <option>Yes</option>
+                <option>No (I am a little busy these days, will let you know later.)</option>
+              </select>
+            </div>
+
+          </form>
+        </div>
+        <div class="text-center">
+            <a href="/login" class="btn btn-outline-light my-2 shadow">Back</a>
+            <a href="/willingess" class="btn btn-light my-2 shadow">Final Step ahead !</a>
+        </div>
+      </div>
+  </div>
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    wht = $(window).height();
+    $('#mainBlock').height(wht);
+  </script>
+</body>
+
+</html>
