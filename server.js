@@ -9,6 +9,7 @@ const {Abilities} = require('./models/abilities');
 var app = express();
 app.use(express.static(__dirname+'/static'));
 app.use(bodyParser.json());
+hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine','hbs');
 
 app.get('/',(req,res) => {
@@ -17,6 +18,10 @@ app.get('/',(req,res) => {
 
 app.get('/login',(req,res) => {
   res.render('login.hbs');
+})
+
+app.get('/check',(req,res) => {
+  res.render('check.hbs');
 })
 
 app.get('/signup',(req,res) => {
@@ -28,6 +33,18 @@ app.get('/signup',(req,res) => {
 
 app.get('/willingess',(req,res) => {
   res.render('willingness.hbs');
+})
+
+app.get('/home',(req,res) => {
+  res.render('home.hbs',{
+    name: 'Qasim'
+  });
+})
+
+app.get('/deposit',(req,res) => {
+  res.render('deposit.hbs',{
+    name: 'Qasim'
+  });
 })
 
 app.post('/locals',(req,res) => {

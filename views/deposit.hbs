@@ -9,7 +9,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="main.css">
 
-  <title>Login - Help!</title>
+  <title>Thanks - Help!</title>
 </head>
 
 <body class="bg-primary">
@@ -17,22 +17,11 @@
   <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
       <div class="col-md-6 col-12">
         <div class="bg-light py-2 px-4 rounded shadow">
-          <p class="lead">Please enter your phone number and password.</p>
+          <p class="lead">Thanks sir {{name}}! Your <b>help</b> request has been submitted. Someone will contact you very soon.</p>
           <hr class="col-6">
-          <form>
-            <div class="form-group">
-              <label for="phone">Your Phone Number</label>
-              <input type="text" class="form-control" id="phone" aria-describedby="phone" placeholder="+923235168638">
-            </div>
-            <div class="form-group">
-              <label for="password">Your Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Enter your password here">
-            </div>
-          </form>
-        </div>
         <div class="text-center">
-            <a href="/" class="btn btn-outline-light my-2 shadow">Back</a>
-            <a href="/home" class="btn btn-light my-2 shadow">Login</a>
+            <a href="/home" class="btn btn-danger my-2">Cancel Request</a>
+            <button type="submit" class="btn btn-light my-2 border" disabled>Request another help - after 00:60:50</button>
         </div>
       </div>
   </div>
