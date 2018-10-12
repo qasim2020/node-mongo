@@ -3,8 +3,11 @@ const bodyParser = require('body-parser');
 const hbs = require('hbs');
 
 const {mongoose} = require('./db/mongoose');
+const {Contacts} = require('./models/contacts');
 const {Friends} = require('./models/friends');
 const {Abilities} = require('./models/abilities');
+const {authenticate} = require('./server/authenticate');
+const {findContact} = require('./server/findRegex');
 
 var app = express();
 app.use(express.static(__dirname+'/static'));
@@ -16,7 +19,7 @@ app.get('/',(req,res) => {
   res.render('index.hbs');
 })
 
-app.get('/login',(req,res) => {
+app.get('/login', authenticate, (req,res) => {
   res.render('login.hbs');
 })
 
@@ -24,45 +27,48 @@ app.get('/check',(req,res) => {
   res.render('check.hbs');
 })
 
-app.get('/signup',(req,res) => {
+app.post('/check/:data',(req,res) => {
+  var {name,phone} = JSON.parse(req.params.data);
+  findContact(name,phone).then((result) => {
+    res.status(200).send(result);
+  }).catch((e) => {
+    res.status(401).send();
+  });
+});
+
+app.get('/checkMobile/:id',authenticate,(req,res) => {
+  res.render('checkMobile.hbs',{
+    name: req.user.Name,
+    phone: req.user.phone
+  });
+})
+
+app.get('/signup', authenticate, (req,res) => {
   res.render('signup.hbs',{
     name: 'Qasim Ali',
     phone: '+923235168638'
   });
 })
 
-app.get('/willingess',(req,res) => {
+app.get('/willingess',authenticate,(req,res) => {
   res.render('willingness.hbs');
 })
 
-app.get('/home',(req,res) => {
+app.get('/home',authenticate,(req,res) => {
   res.render('home.hbs',{
     name: 'Qasim'
   });
 })
 
-app.get('/deposit',(req,res) => {
+app.get('/deposit',authenticate,(req,res) => {
   res.render('deposit.hbs',{
     name: 'Qasim'
   });
 })
 
-app.post('/locals',(req,res) => {
-  var afriend = new Friends({
-    name: req.body.name,
-    phone: req.body.phone,
-    withMeAt: req.body.withMeAt,
-    memorableOccasionWithMe: req.body.memorableOccasionWithMe,
-    currentAddress: req.body.currentAddress,
-    availForHelp: req.body.availForHelp
-  });
+app.post('/testData/:data', (req,res) => {
 
-  afriend.save().then((doc) => {
-    res.status(200).send(doc);
-  }, (e) => {
-    res.status(400).send(e);
-  });
-});
+})
 
 app.listen(3000, () => {
   console.log('listening on port 3000...');

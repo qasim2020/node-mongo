@@ -9,23 +9,20 @@ var Friends = mongoose.model('friends', {
   phone: {
     type: Number,
     required: true,
-    // TODO: validate only those phone numbers which are already added in my personal directory
   },
-  withMeAt: {
-    type: String,
-    required: true
-  },
-  memorableOccasionWithMe: {
-    type: String,
-  },
-  currentAddress: {
-    type: String,
-    required: true
-  },
-  availForHelp: {
+  registered: {
     type: Boolean,
+    required: true,
     default: false
-  }
+  },
+  tokens: [{
+    access: {
+      type: String,
+    },
+    token: {
+      type: String,
+    }
+  }]
 });
 
 module.exports = {Friends};
