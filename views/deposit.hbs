@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="/main.css">
 
   <title>Thanks - Help!</title>
 </head>
@@ -20,7 +20,7 @@
           <p class="lead">Thanks sir {{name}}! Your <b>help</b> request has been submitted. Someone will contact you very soon.</p>
           <hr class="col-6">
         <div class="text-center">
-            <a href="/home" class="btn btn-danger my-2">Cancel Request</a>
+            <a href="/home/{{token}}" class="btn btn-danger my-2">Cancel Request</a>
             <button type="submit" class="btn btn-light my-2 border" disabled>Request another help - after 00:60:50</button>
         </div>
       </div>

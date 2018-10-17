@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="/main.css">
 
   <title>Home - Help!</title>
 </head>
@@ -18,18 +18,32 @@
       <div class="col-md-6 col-12 lead">
         <div class="bg-light py-2 px-4 rounded shadow">
 
-          <p class="lead">Welcome sir {{name}}.</p>
-          <p>This is our home page. You can <a href="/willingess">Edit your Willingness</a> here,</p>
+          <p class="lead">Welcome <b>{{name}}</b>.</p>
+          <p>This is your home page. You can <a href="/willingness/{{token}}">Edit your Willingness</a> here,</p>
+          <p>Or you can raise a flag to seek help,</p>
+          <div class="border-left pl-4">
+            <p>I need a person who can <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">(select)</button></p>
+            <form>
+              <div class="form-group">
+                <label for="request">Some details which I believe the helper might need.</label>
+                <p><textarea type="text" class=" form-control lead" id="request" aria-describedby="request" placeholder="I need a guest room in Murree for my family from Sunday to Monday." rows="4"></textarea></p>
+              </div>
+            </form>
+            <a href="/deposit/{{token}}" class="btn btn-primary mb-1">Submit</a>
+          </div>
 
-          <form>
-            <div class="form-group">
-              <label for="request">Or make a request to seek help :</label>
-              <textarea type="text" class="form-control" id="request" aria-describedby="request" placeholder="I need some help in .... (anything)" rows="4"></textarea>
+          <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog-centered modal-dialog modal-lg">
+              <div class="modal-content p-1">
+                <div class="d-flex justify-content-center flex-wrap">
+                  {{> cardsHelp}}
+                </div>
+              </div>
             </div>
-          </form>
-          <a href="/deposit" class="btn btn-primary mb-1">Submit</a>
+          </div>
+
           <hr class="col-6">
-          <a href="/" class="btn btn-outline-primary mb-1">Log Out</a>
+          <a href="/logout/{{token}}" class="btn btn-outline-primary mb-1">Log Out</a>
         </div>
 
       </div>
@@ -45,6 +59,30 @@
   <script type="text/javascript">
     wht = $(window).height();
     $('#mainBlock').height(wht);
+    var selected = false;
+    $(document).on('mouseenter mouseleave','.card',function() {
+      $('.card').css({cursor: 'pointer'}).each(function() {
+        if ($(this).data('selected')) {
+          selected = true;
+          return;
+        };
+      });
+      if (selected) return console.log('some card is already active');
+      $('.card').toggleClass('shadow-sm text-muted')
+      $(this).toggleClass('shadow-sm text-muted bg-primary');
+    })
+    $(document).on('click','.card',function() {
+      $('.card').removeClass('bg-primary').addClass('shadow-sm text-muted').each(function() {
+        $(this).data('selected',false);
+      })
+      $(this).addClass('bg-primary').removeClass('text-muted shadow-sm').data('selected',true);
+    })
+
+    // $('#myModal').on('show.bs.modal',() => {
+    //   $('.card').css({cursor: 'pointer'}).each(function() {
+    //     if ($(this).data('selected')) return $(this).addClass('bg-primary');
+    //   })
+    // })
   </script>
 </body>
 

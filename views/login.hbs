@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="/main.css">
 
   <title>Login - Help!</title>
 </head>
@@ -29,10 +29,11 @@
               <input type="password" class="form-control" id="password" placeholder="Enter your password here">
             </div>
           </form>
+          <p id="error-text" class="my-2 text-danger"></p>
         </div>
         <div class="text-center">
             <a href="/" class="btn btn-outline-light my-2 shadow">Back</a>
-            <a href="/home" class="btn btn-light my-2 shadow">Login</a>
+            <button id="loginButton" type="button" class="btn btn-light my-2 shadow">Login</button>
         </div>
       </div>
   </div>
@@ -41,12 +42,38 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script type="text/javascript">
     wht = $(window).height();
     $('#mainBlock').height(wht);
+
+    $(document).on('click','#loginButton',() => {
+      if ($('#phone').val() === "" || $('#password').val() === "") {
+        return $('#error-text').html('Please fill above fields to make login request.');
+      }
+      var data = {
+        phone: $('#phone').val(),
+        password: $('#password').val()
+      };
+      data = JSON.stringify(data);
+
+      $.get(`/login/${data}`)
+        .done((msg) => {
+          console.log(msg);
+          var token = msg.tokens[0].token;
+          window.location = window.location.origin + `/home/${token}`;
+        })
+        .fail((xhr, status, error) => {
+          $('#error-text').html('No user found, please go back and try to Sign Up.');
+        })
+    })
+
+
   </script>
 </body>
 

@@ -79,19 +79,29 @@
 
       $.post(`/check/${data}`)
         .done(function(msg){
+          console.log(msg);
           $('#verifyButton').attr('disabled','disabled');
           $('#error-text').html('');
           $('#name').val(msg.name).attr('disabled','disabled');
           $('#phone').val(msg.phone).attr('disabled','disabled');
           $('#phoneVerify').removeClass('d-none');
-          $('#continueButton').removeAttr('disabled');
-          // console.log(msg.id);
-          // window.location = window.location.origin + `/checkMobile/${msg.id}`;
-
+          $('#continueButton').removeAttr('disabled').data('token',msg.tokens[0].token);
         })
         .fail(function(xhr, status, error) {
+          if (error === 'Conflict') {
+            return $('#error-text').html('A user with these credentials is already added. Please contact me if you want to change your registered number. Or you can go back to "Log In".');
+          }
           $('#error-text').html('I am really sorry! Your phone number and name is not saved in my contacts. Please text me your details, I will update it and let you know.');
         });
+    });
+
+    $(document).on('click','#continueButton',() => {
+      var token = $('#continueButton').data('token');
+      window.location = window.location.origin + `/signup/${token}`;
+    });
+
+    $(document).on('paste','input',(e) => {
+      e.preventDefault();
     })
 
   </script>

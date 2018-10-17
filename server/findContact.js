@@ -11,13 +11,12 @@ var findContact = (a,b) => {
     var nrx = new RegExp(nameExpression, 'gi');
 
     var phoneExpression = phone;
-    var prx = new RegExp(phoneExpression, 'g');
+    var prx = new RegExp(phoneExpression, 'gi');
 
     Contacts.find({
       'Name': nrx,
     }).then((user) => {
-      if (!user.length) return console.log('Name not available');
-
+      if (!user.length) return reject('User is not in my contacts list');
       let obj = user.find((obj) => {
         let string = obj['Phone 1 - Value']+','+obj['Phone 2 - Value']+','+obj['Phone 3 - Value']+','+obj['Phone 4 - Value'];
         string = string.toString().replace(/:::/g,",").replace(/\s+/g,"").trim();
@@ -25,19 +24,23 @@ var findContact = (a,b) => {
         return prx.test(string);
       });
 
-      if (!obj) return reject();
+      if (!obj) return reject('User is aval but no phone matched found');
 
       prx = new RegExp(phoneExpression, 'g');
 
       phone = array.find((el) => {
         return prx.test(el);
       });
+      var result = {
+        refId: obj._id.toHexString(),
+        name: obj.Name,
+        phone,
+      };
 
-      var result = {id: obj._id.toHexString(), name: obj.Name, phone};
       resolve(result);
 
     }).catch((e) => {
-      return reject();
+      return reject(e);
     });
 
   });

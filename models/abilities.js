@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 var Abilities = mongoose.model('abilities', {
   refId: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
-  englishSpeaking: {
+  speakEnglish: {
     type: Boolean,
     default: false
   },
-  letterWriting: {
+  writeLetter: {
     type: Boolean,
     default: false
   },
@@ -21,11 +22,35 @@ var Abilities = mongoose.model('abilities', {
     type: Boolean,
     default: false
   },
+  ForeignTourGuide: {
+    type: Boolean,
+    default: false
+  },
   canFight: {
     type: Boolean,
     default: false
   },
+  importExport: {
+    type: Boolean,
+    default: false
+  },
   creditCard: {
+    type: Boolean,
+    default: false
+  },
+  pptx: {
+    type: Boolean,
+    default: false
+  },
+  cryptoCurrency: {
+    type: Boolean,
+    default: false
+  },
+  doctor: {
+    type: Boolean,
+    default: false
+  },
+  listen: {
     type: Boolean,
     default: false
   }

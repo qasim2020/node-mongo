@@ -4,5 +4,6 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/Downloads',{
   useNewUrlParser: true
 });
+mongoose.set('useCreateIndex', true);
 
 module.exports = {mongoose};
