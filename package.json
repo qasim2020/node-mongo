@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha */**.test.js",
+    "test": "export NODE_ENV=test || SET NODE_ENV=test && mocha */**.test.js",
     "test-watch": "nodemon --exec \"npm test\"",
     "load-bootstrap": "sass static/main.scss static/main.css",
     "load-toggle": "sass static/toggle.scss static/toggle.css"
+  },
+  "engines": {
+    "node": "10.9.0"
   },
   "author": "",
   "license": "ISC",
