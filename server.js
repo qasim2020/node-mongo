@@ -1,3 +1,5 @@
+require('./config/config');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
@@ -18,6 +20,7 @@ const {serverRunning} = require('./server/serverRunning');
 const {assignJob} = require('./server/assignJob');
 
 var app = express();
+var port = process.env.PORT;
 app.use(express.static(__dirname+'/static'));
 app.use(bodyParser.json());
 hbs.registerPartials(__dirname + '/views/partials');
@@ -336,8 +339,8 @@ app.post('/newRequestActions/:data',(req,res) => {
 
 serverRunning();
 
-app.listen(3000, () => {
-  console.log('listening on port 3000...');
+app.listen(port, () => {
+  console.log(`listening on port ${port}...`);
 })
 
 module.exports = {app};
