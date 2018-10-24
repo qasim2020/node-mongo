@@ -8,7 +8,7 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="/main.css">
-
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
   <title>Home - Help!</title>
 </head>
 
@@ -16,25 +16,41 @@
 
   <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
       <div class="col-md-6 col-12 lead">
-        <div class="bg-light py-2 px-4 rounded shadow">
+        <div class="bg-light py-2 rounded shadow">
+          <div class="px-4">
+            <div class="position-absolute" style="top:0.3rem;right:2rem">
+              <small><span class="badge badge-pill badge-warning">{{credit}} left</span></small>
 
-          <p class="lead">Welcome <b>{{name}}</b>.</p>
-          <p>This is your home page. You can <a href="/willingness/{{token}}">Edit your Willingness</a> here,</p>
-          <p>Or you can raise a flag to seek help,</p>
-          <div class="border-left pl-4">
-            <p>I need a person who can <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">(select)</button></p>
-            <form>
-              <div class="form-group">
-                <label for="request">Some details which I believe the helper might need.</label>
-                <p><textarea type="text" class=" form-control lead" id="request" aria-describedby="request" placeholder="I need a guest room in Murree for my family from Sunday to Monday." rows="4"></textarea></p>
-              </div>
-            </form>
-            <a href="/deposit/{{token}}" class="btn btn-primary mb-1">Submit</a>
+            </div>
+            <p class="lead">Welcome <b>{{name}}</b>.</p>
+            <p>This is your home page. You can <a href="/willingness/{{token}}">Edit your Willingness</a> here,</p>
+            <p>Or raise a flag to seek help,</p>
+          </div>
+          <div class="bg-dark text-light py-2">
+            <div class="px-4">
+              <small><i class="fas fa-quote-left"></i><br></small>
+
+              <p>I need a person who <a id="selectHelper" href="" data-toggle="modal" data-target=".bd-example-modal-lg">Can ... <small>(select one)</small></a></p>
+              <form>
+                <div class="form-group">
+                  <label for="request">Some details which I believe the helper will need.</label>
+                  <p><textarea type="text" class="bg-dark form-control text-light" id="request" aria-describedby="request" placeholder="I need a guest room in Murree for my family from Sunday to Monday." rows="4"></textarea></p>
+                </div>
+              </form>
+              <p id="error-text" class="my-2 text-danger"></p>
+              <button id="depositButton" type="button" class="btn btn-primary mb-1">Submit</button>
+            </div>
           </div>
 
           <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog-centered modal-dialog modal-lg">
               <div class="modal-content p-1">
+                <div class="modal-header">
+                  <h5 class="modal-title">Select One</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
                 <div class="d-flex justify-content-center flex-wrap">
                   {{> cardsHelp}}
                 </div>
@@ -42,8 +58,11 @@
             </div>
           </div>
 
-          <hr class="col-6">
-          <a href="/logout/{{token}}" class="btn btn-outline-primary mb-1">Log Out</a>
+          <div class="px-4 pt-3">
+            <p id="pendingJob" class="d-none lead">You have a <a href="/newRequest/{{urlToJob}}">pending job</a> linked to you. Please clear when possible.</p>
+            <a href="/logout/{{token}}" class="btn btn-outline-primary mb-1">Log Out</a>
+          </div>
+
         </div>
 
       </div>
@@ -53,13 +72,25 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script type="text/javascript">
     wht = $(window).height();
     $('#mainBlock').height(wht);
     var selected = false;
+
+    $(document).ready(() => {
+      if (/pending|beingSolved/g.test('{{status}}')) {
+        console.log('1 job is linked to this user');
+        $('#pendingJob').removeClass('d-none');
+      };
+      console.log(`{{status}}`);
+    })
+
     $(document).on('mouseenter mouseleave','.card',function() {
       $('.card').css({cursor: 'pointer'}).each(function() {
         if ($(this).data('selected')) {
@@ -67,22 +98,50 @@
           return;
         };
       });
-      if (selected) return console.log('some card is already active');
       $('.card').toggleClass('shadow-sm text-muted')
       $(this).toggleClass('shadow-sm text-muted bg-primary');
     })
+
     $(document).on('click','.card',function() {
       $('.card').removeClass('bg-primary').addClass('shadow-sm text-muted').each(function() {
         $(this).data('selected',false);
       })
       $(this).addClass('bg-primary').removeClass('text-muted shadow-sm').data('selected',true);
+
+      var helperSelected = $(this).find('.card-title').html().split('.')[0];
+      $('#selectHelper').html(helperSelected+'.').data({'abilityNeeded':this.id,'abilityNeededElaborated':helperSelected});
+      console.log('id =',this.id,'; id elaborated =', helperSelected);
+      $('#myModal').modal('hide');
     })
 
-    // $('#myModal').on('show.bs.modal',() => {
-    //   $('.card').css({cursor: 'pointer'}).each(function() {
-    //     if ($(this).data('selected')) return $(this).addClass('bg-primary');
-    //   })
-    // })
+    $(document).on('click','#depositButton',() => {
+      var abilityNeeded = $('#selectHelper').data('abilityNeeded');
+      var abilityNeededElaborated = $('#selectHelper').data('abilityNeededElaborated');
+      console.log(abilityNeeded, abilityNeededElaborated);
+      if ( !abilityNeeded || $('#request').val() === '' ) {
+        return $('#error-text').html('Please select the person (helper) and write description of your request in above field.')
+      }
+      $('#error-text').html('');
+      var data = {
+        abilityNeeded,
+        request: $('#request').val(),
+        token : window.location.pathname.split('/')[2],
+        abilityNeededElaborated,
+      };
+      data = encodeURIComponent(JSON.stringify(data));
+
+      $.post(`/homeData/${data}`)
+        .done((msg) => {
+          console.log(msg);
+          location.reload();
+        })
+        .fail((xhr, status, error) => {
+          console.log(xhr.status,status,error);
+          $('#error-text').html('A request by you has already been raised.');
+        })
+      })
+
+
   </script>
 </body>
 

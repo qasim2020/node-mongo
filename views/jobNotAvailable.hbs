@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/main.css">
+
+  <title>Welcome - help!</title>
+</head>
+
+<body class="bg-info">
+
+  <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
+      <div class="container">
+        <div class="bg-light p-4 rounded shadow mb-3 text-center lead">
+          <b>Welcome. The request has been either settled or passed on to next person.</b><br><br>
+          redirecting to home page in <br><span id="timer">00:04</span>
+        </div>
+
+      </div>
+  </div>
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    wht = $(window).height();
+    $('#mainBlock').height(wht);
+
+    var oldTime = new Date().getTime();
+
+    window.setInterval(function(){
+
+      var newTime = new Date().getTime();
+      var diffTime = newTime - oldTime;
+
+      if (diffTime > 4 * 1000) {
+        console.log('redirect Now');
+        window.location = window.location.origin + `/{{homeURL}}`;
+      }
+
+      var showTime = {
+        seconds: Math.floor((diffTime / (1000)) % 60),
+      };
+
+      $('#timer').html(`00:0${4 - showTime.seconds}`);
+
+    }, 1000);
+  </script>
+</body>
+
+</html>

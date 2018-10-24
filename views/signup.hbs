@@ -36,13 +36,6 @@
               <label for="currentAddress">What is your current address (I might want to send you a card some day...)</label>
               <input type="text" class="necessary form-control" id="currentAddress" placeholder="Milan, Italy">
             </div>
-            <div class="form-group">
-              <label for="availForHelp">I am available for help</label>
-              <select class="necessary form-control" id="availForHelp">
-                <option>Yes</option>
-                <option>No (I am a little busy these days, will let you know later.)</option>
-              </select>
-            </div>
             <p id="error-text" class="my-2 text-danger"></p>
           </form>
         </div>
@@ -82,23 +75,15 @@
 
       var token = window.location.pathname.split('/')[2];
 
-      var availForHelp = () => {
-        if ($('#availForHelp').val() === 'Yes') {
-          return true;
-        }
-        return false;
-      }
-
       var data = {
         'token': token,
         'password': $('#password').val(),
         'withMeAt': $('#withMeAt').val(),
         'memorableOccasionWithMe': $('#memorableOccasionWithMe').val(),
         'currentAddress': $('#currentAddress').val(),
-        'availForHelp': availForHelp()
       };
 
-      var data = JSON.stringify(data);
+      data = encodeURIComponent(JSON.stringify(data));
 
       $.post(`/signupData/${data}`)
         .done(function(msg){
@@ -112,9 +97,7 @@
           $('#error-text').html('I am really sorry! Your phone number and name is not saved in my contacts. Please text me your details, I will update it and let you know.');
         });
     });
-    $(document).on('paste','input',(e) => {
-      e.preventdefault();
-    })
+
   </script>
 </body>
 

@@ -26,8 +26,7 @@
 
 
         <div class="text-center my-3">
-            <button id="depositButton" type="button" class="btn btn-light shadow">Thanks - Proceed to help page.</button><br>
-            <a href="/signup" class="btn btn-outline-light mt-2 shadow">Back</a>
+            <button id="depositButton" type="button" class="btn btn-light shadow">Done</button><br>
         </div>
 
       </div>
@@ -43,16 +42,23 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script type="text/javascript">
-    wht = $(window).height();
-    $('#mainBlock').height(wht);
+
+
+    $( document ).ready(function() {
+      wht = $(window).height();
+      $('#mainBlock').height(wht);
+    });
 
     $(document).on('click','#depositButton',() => {
+
       var data = {};
       $('input').each((index,item) => {
         data[$(item).attr('id')] = $(item).prop('checked');
       });
       data.token = window.location.pathname.split('/')[2];
-      data = JSON.stringify(data);
+
+      data = encodeURIComponent(JSON.stringify(data));
+
       $.post(`/willingnessData/${data}`)
         .done(function(msg){
           var token = msg.tokens[0].token;
@@ -61,7 +67,7 @@
         .fail(function(xhr, status, error) {
           alert('Sorry, you are not authorized to make this request.');
         });
-      // console.log($('#writeLetter').prop('checked'));
+
     })
   </script>
 </body>

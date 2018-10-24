@@ -60,7 +60,7 @@
         phone: $('#phone').val(),
         password: $('#password').val()
       };
-      data = JSON.stringify(data);
+      data = encodeURIComponent(JSON.stringify(data));
 
       $.get(`/login/${data}`)
         .done((msg) => {

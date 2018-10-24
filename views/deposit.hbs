@@ -8,7 +8,7 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="/main.css">
-
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
   <title>Thanks - Help!</title>
 </head>
 
@@ -16,13 +16,35 @@
 
   <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
       <div class="col-md-6 col-12">
-        <div class="bg-light py-2 px-4 rounded shadow">
-          <p class="lead">Thanks sir {{name}}! Your <b>help</b> request has been submitted. Someone will contact you very soon.</p>
-          <hr class="col-6">
-        <div class="text-center">
-            <a href="/home/{{token}}" class="btn btn-danger my-2">Cancel Request</a>
-            <button type="submit" class="btn btn-light my-2 border" disabled>Request another help - after 00:60:50</button>
-        </div>
+        <div class="bg-light py-2 rounded shadow">
+          <p class="px-4 lead">Thanks {{name}}! Your below mentioned <b>help request</b> has been submitted. Someone will contact you very soon.</p>
+          <div class="bg-dark text-light py-2">
+            <div class="px-4">
+
+              <form>
+                <div class="form-group">
+                  <h6 class="lead">Type: {{abilityNeededElaborated}}</h6>
+                  <small><i class="fas fa-quote-left"></i><br></small>
+                  <p class="text-light lead"><i>{{request}}</i></p>
+                </div>
+              </form>
+
+              <div class="text-center">
+                  <small class="text-muted">Expecting the problem to be solved in - <span id="showTime">00:00:00</span></small>
+              </div>
+
+              <p id="error-text" class="my-2 text-danger"></p>
+
+              <button id="cancelled" type="button" class="cancelButton btn btn-danger mt-2 mb-1">Cancel Request</button>
+              <button id="solved" type="button" class="cancelButton btn btn-success mt-2 mb-1">Mark as 'solved'</button>
+
+            </div>
+          </div>
+
+          <div class="px-4 pt-3">
+            <a href="/logout/{{token}}" class="btn btn-outline-primary mb-1">Log Out</a>
+          </div>
+
       </div>
   </div>
 
@@ -30,12 +52,56 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script type="text/javascript">
     wht = $(window).height();
     $('#mainBlock').height(wht);
+
+    $(document).ready(function() {
+      createdAt = {{timeStamp}};
+      console.log(`{{status}}`);
+
+      window.setInterval(function(){
+        currentTime = new Date().getTime();
+        diffTime = currentTime - createdAt;
+        var showTime = {
+          days: Math.floor((diffTime / (1000 * 60 * 60 * 24)) % 60),
+          hours: Math.floor((diffTime / (1000 * 60 * 60)) % 60),
+          mins: Math.floor((diffTime / (1000 * 60)) % 60),
+          seconds: Math.floor((diffTime / (1000)) % 60),
+        };
+        $('#showTime').html(`${23 - showTime.hours}:${59 - showTime.mins}:${59 - showTime.seconds}`);
+
+        // console.log(`
+        //   createdAt: ${new Date(createdAt).toString()},
+        //   currentTime: ${new Date(currentTime).toString()};
+        //   `);
+      }, 1000);
+
+    });
+
+    $(document).on('click', '.cancelButton', function() {
+          var data = {
+            token: window.location.pathname.split('/')[2],
+            requestStatus: this.id
+          };
+
+          data = encodeURIComponent(JSON.stringify(data));
+
+          $.post(`/finishRequest/${data}`)
+            .done((msg) => {
+              console.log(msg);
+              location.reload();
+            })
+            .fail((xhr, status, error) => {
+              $('#error-text').html('Sorry something bad happened. Please report the matter to admin.');
+            })
+          })
   </script>
 </body>
 

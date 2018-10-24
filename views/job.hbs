@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+  <title>New job - Help !</title>
+</head>
+
+<body class="bg-primary">
+
+  <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
+      <div class="col-md-6 col-12">
+        <div class="bg-light py-2 rounded shadow">
+          <p id="headingBlock" class="px-4 lead">
+            Aoa, <b>{{assignedTo}} !</b>
+            <br><br>
+            <span id="welcomeText"><b>{{raisedByName}}</b> has raised a request. You can help him / her at {{raisedByPhone}}.</span><br>
+          </p>
+          <div class="bg-dark text-light py-2">
+            <div class="px-4">
+              <form>
+                <div class="form-group">
+                  <h6 class="lead">Type: <b>{{abilityNeeded}}</b></h6>
+                  <small><i class="fas fa-quote-left"></i><br></small>
+                  <p class="text-light lead"><i>{{request}}</i></p>
+                </div>
+              </form>
+
+              <div class="text-center">
+                  <small id="statusTime" class="text-muted">Expecting the problem to be solved in - <span id="showTime" class="">00:00:00</span></small>
+              </div>
+
+
+              <p id="error-text" class="my-2 text-danger"></p>
+
+              <h6 id="taggedTo" class="lead d-none">Thanks <b>{{assignedTo}}</b>. Please ask {{raisedByName}} to update this request flag once it is resolved.</h6>
+
+            </div>
+          </div>
+
+          <div class="buttons px-4 pt-1">
+            <button id="beingSolved" type="button" class="submitButton btn btn-dark mt-2 mb-1">On it ! <span id="showTimeonButton" style="width:60px;" class="badge badge-dark text-center">49:25</span></button>
+            <button id="assignToNext" type="button" class="submitButton btn btn-outline-danger mt-2 mb-1">Pass On</button><br>
+            <hr class="col-6">
+            <a id="goHome" href="/{{homeURL}}" class="btn btn-outline-primary mb-1">Home</a>
+          </div>
+
+      </div>
+  </div>
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    wht = $(window).height();
+    $('#mainBlock').height(wht);
+
+    $(document).ready(function() {
+
+      createdAt = {{timeStamp}};
+
+      if ( 'beingSolved' === '{{status}}') {
+        $('#beingSolved').addClass('d-none');
+        $('#taggedTo').removeClass('d-none');
+        $('#headingBlock').addClass('text-muted');
+      }
+
+      if (/solved|cancelled/g.test('{{status}}')) {
+        $('.btn').attr('disabled',true);
+        $('#welcomeText').addClass('text-muted');
+        $('#statusTime').html(`This request has been marked <b>{{status}}</b> by {{raisedByName}}.`).removeClass('text-muted').addClass('text-primary text-capitalize');
+      };
+
+      console.log('{{status}}');
+
+      window.setInterval(function(){
+
+        var currentTime = new Date().getTime();
+        var diffTime = currentTime - createdAt;
+        var showTime = {
+          days: Math.floor((diffTime / (1000 * 60 * 60 * 24)) % 60),
+          hours: Math.floor((diffTime / (1000 * 60 * 60)) % 60),
+          mins: Math.floor((diffTime / (1000 * 60)) % 60),
+          seconds: Math.floor((diffTime / (1000)) % 60),
+        };
+
+        $('#showTime').html(`${23 - showTime.hours}:${59 - showTime.mins}:${59 - showTime.seconds}`);
+
+        var remainingTime = {{remainingTime}};
+        var diffTime = currentTime - remainingTime;
+
+        var showTimeonButton = {
+          hours: Math.floor((diffTime / (1000 * 60 * 60)) % 60),
+          mins: Math.floor((diffTime / (1000 * 60)) % 60),
+          seconds: Math.floor((diffTime / (1000)) % 60),
+        };
+
+        if ( ('pending' === '{{status}}') && (diffTime > 60 * 60 * 1000) ) {
+          location.reload();
+        }
+
+        if ( 'beingSolved' === '{{status}}') {
+          $('#beingSolved').addClass('d-none');
+          $('#taggedTo').removeClass('d-none');
+          $('#headingBlock').addClass('text-muted');
+        }
+
+        $('#showTimeonButton').html(`${59 - showTimeonButton.mins}:${59 - showTimeonButton.seconds}`);
+
+      }, 1000);
+
+    });
+
+    $(document).ready(function() {
+
+    });
+
+    $(document).on('click', '.submitButton', function() {
+
+      var data = {
+        job: '{{job}}',
+        action: this.id,
+      };
+      data = encodeURIComponent(JSON.stringify(data));
+      console.log(data);
+
+      $.post(`/newRequestActions/${data}`)
+        .done((msg) => {
+          console.log(msg);
+          location.reload();
+        })
+        .fail((xhr,status,error) => {
+          console.log(xhr.responseText,error);
+          location.reload();
+        })
+
+    });
+  </script>
+</body>
+
+</html>

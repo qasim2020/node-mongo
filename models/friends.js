@@ -23,6 +23,15 @@ var FriendsSchema = new mongoose.Schema({
     required: true,
     default: false
   },
+  requestRaised: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  phoneCode: {
+    type: String,
+    default: '',
+  },
   tokens: [{
     access: {
       type: String,

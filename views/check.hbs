@@ -33,13 +33,18 @@
               <p id="error-text" class="my-2 text-danger"></p>
             <div class="d-none" id="phoneVerify">
               <hr class="col-6">
-              <span class="badge badge-success mb-2">Welcome, your phone is verified.</span>
+              <span class="badge badge-success mb-2">Welcome, your phone is in my contact list.</span>
 
               <div class="form-group">
                 <label for="code">I need a moment to verify your mobile number. You will shortly recieve a 4 digit code on your phone, please enter that here to proceed further.</label>
                 <input type="text" class="form-control" id="code" placeholder="****" required>
               </div>
-              <button class="btn btn-primary mb-1" type="button" name="button">Resend Code</button>
+              <button id="resendButton" class="btn btn-primary mb-1" type="button" name="button">Resend Code</button>
+              <div class="">
+                <span id="codeVerified" class="d-none badge badge-success">Code Verified, please click Continue below.</span>
+              </div>
+
+
             </div>
             </div>
             <div class="text-center">
@@ -75,7 +80,7 @@
         name: $('#name').val(),
         phone: $('#phone').val()
       };
-      var data = JSON.stringify(data);
+      data = encodeURIComponent(JSON.stringify(data));
 
       $.post(`/check/${data}`)
         .done(function(msg){
@@ -85,7 +90,7 @@
           $('#name').val(msg.name).attr('disabled','disabled');
           $('#phone').val(msg.phone).attr('disabled','disabled');
           $('#phoneVerify').removeClass('d-none');
-          $('#continueButton').removeAttr('disabled').data('token',msg.tokens[0].token);
+          $('#continueButton').data('token',msg.tokens[0].token);
         })
         .fail(function(xhr, status, error) {
           if (error === 'Conflict') {
@@ -102,6 +107,40 @@
 
     $(document).on('paste','input',(e) => {
       e.preventDefault();
+    })
+
+    $(document).on('keyup','#code',function() {
+      val = $(this).val();
+      if (val.length < 4) return;
+      var data = {
+        token: $('#continueButton').data('token'),
+        val,
+      };
+      data = encodeURIComponent(JSON.stringify(data));
+
+      $.get(`/checkCode/${data}`)
+        .done((msg) => {
+          $('#continueButton').removeAttr('disabled');
+          $('#codeVerified').removeClass('d-none');
+          $('#phone').val(msg.phone).attr('disabled','disabled');
+          $('#code').attr('disabled','disabled');
+          $('#resendButton').addClass('d-none');
+        })
+        .fail((xhr,status,error) => {
+          console.log(error);
+        });
+
+    })
+
+    $(document).on('click','#resendButton',() => {
+      var token = $('#continueButton').data('token');
+      $.post(`/checkResendCode/${token}`)
+        .done((msg) => {
+          console.log(msg);
+        })
+        .fail((xhr,status,error) => {
+          console.log(error);
+        });
     })
 
   </script>

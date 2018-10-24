@@ -21,11 +21,7 @@ var FriendsDetailsSchema = mongoose.Schema({
   currentAddress: {
     type: String,
     required: true
-  },
-  availForHelp: {
-    type: Boolean,
-    default: false
-  },
+  }
 });
 
 FriendsDetailsSchema.pre('save', function(next) {

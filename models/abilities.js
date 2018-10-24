@@ -6,6 +6,16 @@ var Abilities = mongoose.model('abilities', {
     required: true,
     unique: true,
   },
+  jobStatus: {
+    type: 'String',
+    required: true,
+    default: 'available'
+  },
+  credit: {
+    type: Number,
+    required: true,
+    default: 10,
+  },
   speakEnglish: {
     type: Boolean,
     default: false
