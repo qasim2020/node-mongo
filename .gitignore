@@ -2,7 +2,7 @@ node_modules/
 config/config.json
 static/.sass-cache
 *.sass-cache/
-static/main.css
+static/main.scss
 static/main.css.map
-static/toggle.css
+static/toggle.scss
 static/toggle.css.map
