@@ -23,7 +23,7 @@ var assignJob = (job) => {
 
     Abilities.findOneAndUpdate(query,{$inc:{credit:-1}},{new: true}).then((ability) => {
 
-      if (!ability) return Friends.findOne({name: 'Qasim Ali', phone: /5168638/g});
+      if (!ability) return Friends.findOne({name: 'Qasim Ali', phone: 923235168638});
       gotAbility = ability;
       return Friends.findById(ability.refId); //TODO: if credit is gt 0 then select this friend.
 
