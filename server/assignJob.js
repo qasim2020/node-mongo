@@ -51,10 +51,7 @@ var assignJob = (job) => {
     }).catch((e) => {
       console.log('***Job was not assigned.***');
       console.log(' ');
-      got.error = e;
-      return Jobs.findOneAndDelete({_id: job._id});
-    }).then(() => {
-      return reject(got.error);
+      return reject(e);
     })
 
   });

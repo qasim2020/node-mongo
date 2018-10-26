@@ -226,6 +226,7 @@ app.post('/homeData/:data', customAuthenticate, (req,res) => {
   body.assignedJobCounter = new Date().getTime().toString();
   var job = new Jobs(body);
   job.save().then((gotJob) => {
+    req.job = gotJob;
     return assignJob(gotJob);
   }).then((job) => {
     return Friends.findOneAndUpdate({_id: req.user._id}, {$set: {requestRaised: true}}, {new: true})
@@ -233,7 +234,10 @@ app.post('/homeData/:data', customAuthenticate, (req,res) => {
     return res.status(200).send(assignedJob.updatedAbility);
   }).catch((e) => {
     console.log(e);
-    return res.status(401).send(e);
+    req.error = e;
+    return Jobs.findOneAndDelete({_id: req.job._id});
+  }).then(() => {
+    return res.status(401).send(req.error);
   })
 
 })
