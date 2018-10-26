@@ -1,9 +1,43 @@
-var sendCode = function(code) {
+const axios = require('axios');
+
+
+var sendCode = function(code,req) {
   return new Promise((resolve,reject) => {
-    //TODO: if code sent
+
+    var textURL = `http://Lifetimesms.com/plain?username=famousfakir&password=1234!qasim&to=${req.user.phone}&from=letsHelp&message=${code}`
+    console.log(textURL);
     resolve(code);
-    // reject('code was not sent sorry');
+    // axios.get(textURL)
+    //   .then((response) => {
+    //     console.log(response);
+    //     if (/OK/g.test(response.data)) return resolve(code);
+    //     return reject('Code was not sent due to some problem. Please intimate Qasim.');
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     return reject('Some thing wrong with text api. Please intimate Qasim.');
+    //   });
   })
 }
 
-module.exports = {sendCode};
+var sendText = (text,phone) => {
+  return new Promise((resolve,reject) => {
+
+    var textURL = `http://Lifetimesms.com/plain?username=famousfakir&password=1234!qasim&to=${phone}&from=letsHelp&message=${text}`
+    console.log(textURL);
+    // resolve(code);
+    axios.get(textURL)
+      .then((response) => {
+        console.log(response);
+        if (/OK/g.test(response.data)) return resolve(text);
+        return reject(`Server Error: ${response.data}`);
+      })
+      .catch((error) => {
+        console.log(error);
+        return reject('Server Error: Some thing wrong with text api.');
+      });
+  })
+
+}
+
+module.exports = {sendCode, sendText};

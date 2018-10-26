@@ -5,7 +5,7 @@ var findContact = (a,b) => {
   return new Promise((resolve,reject) => {
     var enteredName = a.trim();
     var enteredPhone = b.trim();
-    var phone = enteredPhone.replace(' ','').trim().slice(-7);
+    var phone = enteredPhone.replace(' ','').trim().slice(-10);
 
     var nameExpression = enteredName;
     var nrx = new RegExp(nameExpression, 'gi');
@@ -24,7 +24,7 @@ var findContact = (a,b) => {
         return prx.test(string);
       });
 
-      if (!obj) return reject('User is aval but no phone matched found');
+      if (!obj) return reject('Unable to find you in my contact list. Please text me your details.');
 
       prx = new RegExp(phoneExpression, 'g');
 
@@ -34,13 +34,13 @@ var findContact = (a,b) => {
       var result = {
         refId: obj._id.toHexString(),
         name: obj.Name,
-        phone,
+        phone: enteredPhone,
       };
 
       resolve(result);
 
     }).catch((e) => {
-      return reject(e);
+      return reject('Unable to find you in my contact list. Please text me your details.');
     });
 
   });

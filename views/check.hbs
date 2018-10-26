@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
               <label for="phone">Your phone number</label>
-              <input type="text" class="form-control" id="phone" placeholder="+923235168639" required>
+              <input type="number" class="form-control" id="phone" placeholder="923235168639" required>
             </div>
             <button id="verifyButton" class="btn btn-primary" type="button" name="button">Verify (in my contacts list)</button>
               <p id="error-text" class="my-2 text-danger"></p>
@@ -93,10 +93,12 @@
           $('#continueButton').data('token',msg.tokens[0].token);
         })
         .fail(function(xhr, status, error) {
-          if (error === 'Conflict') {
-            return $('#error-text').html('A user with these credentials is already added. Please contact me if you want to change your registered number. Or you can go back to "Log In".');
-          }
-          $('#error-text').html('I am really sorry! Your phone number and name is not saved in my contacts. Please text me your details, I will update it and let you know.');
+          console.log(xhr,status,error);
+          $('#error-text').html(xhr.responseText);
+          // if (error === 'Conflict') {
+          //   return $('#error-text').html('A user with these credentials is already added. Please contact me if you want to change your registered number. Or you can go back to "Log In".');
+          // }
+          // $('#error-text').html('I am really sorry! Your phone number and name is not saved in my contacts. Please text me your details, I will update it and let you know.');
         });
     });
 

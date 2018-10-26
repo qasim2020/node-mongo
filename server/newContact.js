@@ -10,7 +10,8 @@ var newContact = (user) => {
         resolve(friend.generateAuthToken());
       })
       .catch((e) => {
-        reject(e);
+        console.log(e);
+        reject('You are already registered. Please go back and try to "Log In".');
       });
   });
 }

@@ -2,6 +2,7 @@ const {mongoose} = require('./../db/mongoose');
 const {Friends} = require('./../models/friends');
 const {Abilities} = require('./../models/abilities');
 const {Jobs} = require('./../models/jobs');
+const {sendText} = require('./sendCode');
 
 var assignJob = (job) => {
 
@@ -48,8 +49,11 @@ Dear ${gotFriend.name}, you can help someone in need. Please check details on be
 http://localhost:3000/newRequest/${urlPair}
 ====================
       `);
+      var text = `Dear ${gotFriend.name}, you can help someone in need. Please check details on below link:
+      http://localhost:3000/newRequest/${urlPair}`;
+      return sendText(text,gotFriend.phone);
+    }).then(() => {
       return Abilities.findOneAndUpdate({refId: gotJob.assignedTo},{$set: {jobStatus: new Date().getTime().toString()}},{new: true});
-
     }).then((updatedAbility) => {
 
       var reply = {updatedAbility,gotFriend,gotJob};

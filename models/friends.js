@@ -15,7 +15,7 @@ var FriendsSchema = new mongoose.Schema({
     minlength: 3
   },
   phone: {
-    type: String,
+    type: Number,
     required: true,
   },
   registered: {
@@ -57,7 +57,7 @@ FriendsSchema.methods.removeToken = function (token) {
 FriendsSchema.methods.generateAuthToken = function () {
   var user = this;
   var access = 'auth';
-  var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+  var token = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET).toString();
 
   user.tokens.push({access, token});
 
@@ -71,7 +71,7 @@ FriendsSchema.statics.findByToken = function (token) {
   var decoded;
 
   try {
-    decoded = jwt.verify(token, 'abc123');
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
     return Promise.reject();
   }
@@ -85,16 +85,17 @@ FriendsSchema.statics.findByToken = function (token) {
 
 FriendsSchema.statics.findByCredentials = function (phone, password) {
   var User = this;
-  var phoneRegExp = new RegExp(phone.slice(-10),'g');
+  // var phoneRegExp = new RegExp(phone.slice(-10),'g');
 
-  return User.findOne({phone: phoneRegExp}).then((user) => {
+  return User.findOne({phone: phone}).then((user) => {
+
     if (!user) {
-      return Promise.reject();
+      return Promise.reject('No user found with this phone and password.');
     }
 
     return new Promise((resolve, reject) => {
       FriendsDetails.findOne({refId: user._id}).then((result) => {
-        if (!result) return Promise.reject("refId didn't match in details");
+        if (!result) return resolve(user);
         bcrypt.compare(password, result.password, (err, res) => {
           if (res) {
             resolve(user);
@@ -103,8 +104,8 @@ FriendsSchema.statics.findByCredentials = function (phone, password) {
           }
         });
       })
-
     });
+
   });
 };
 

@@ -55,7 +55,8 @@ app.get('/check',(req,res) => {
 app.post('/check/:data',(req,res) => {
   var {name,phone} = JSON.parse(decodeURIComponent(req.params.data));
   var phoneCode = Math.floor(1000 + Math.random() * 9000);
-  sendCode(phoneCode)
+  req.user = {phone};
+  sendCode(phoneCode,req)
     .then(() => {
       return findContact(name,phone);
     })
@@ -70,10 +71,7 @@ app.post('/check/:data',(req,res) => {
     })
     .catch((e) => {
       console.log(e);
-      if (e.code == 11000) {
-        return res.status(409).send();
-      }
-      res.status(401).send();
+      res.status(401).send(e);
     })
 });
 
@@ -86,7 +84,7 @@ app.get('/checkCode/:data', customAuthenticate,(req,res) => {
 
 app.post('/checkResendCode/:token', authenticate,(req,res) => {
   var phoneCode = Math.floor(1000 + Math.random() * 9000);
-  sendCode(phoneCode)
+  sendCode(phoneCode,req)
   .then(() => {
     return Friends.findOneAndUpdate({_id: req.user._id}, {$set: {phoneCode}}, {new: true});
   })
@@ -162,7 +160,6 @@ app.post('/willingnessData/:data', customAuthenticate, (req,res) => {
 app.get('/home/:token', authenticate, (req,res) => {
 
   if (req.user.requestRaised) {
-
     return Jobs.findOne({
       raisedBy: req.user._id.toHexString(),
       status: /pending|beingSolved/g
@@ -180,9 +177,10 @@ app.get('/home/:token', authenticate, (req,res) => {
       console.log(e);
       res.status(401).send();
     })
-
-  } else if (!req.user.registered) {
-    return res.render('index.hbs');
+  }
+  else if (!req.user.registered) {
+    console.log('not registered so directing to signup.hbs');
+    return res.render('signup.hbs');
   }
 
   Jobs.findOne({assignedTo: req.user._id, status:/pending|beingSolved/g}).then((job) => {

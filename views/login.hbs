@@ -69,7 +69,7 @@
           window.location = window.location.origin + `/home/${token}`;
         })
         .fail((xhr, status, error) => {
-          $('#error-text').html('No user found, please go back and try to Sign Up.');
+          $('#error-text').html(xhr.responseText);
         })
     })
 
