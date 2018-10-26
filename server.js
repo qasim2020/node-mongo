@@ -225,12 +225,11 @@ app.post('/homeData/:data', customAuthenticate, (req,res) => {
   body.raisedBy = req.user._id;
   body.assignedJobCounter = new Date().getTime().toString();
   var job = new Jobs(body);
-  Friends.findOneAndUpdate({_id: req.user._id}, {$set: {requestRaised: true}}, {new: true})
-  .then(() => {
+  assignJob(job).then(() => {
     return job.save();
   }).then((job) => {
-    return assignJob(job);
-  }).then((assignedJob) => {
+    return Friends.findOneAndUpdate({_id: req.user._id}, {$set: {requestRaised: true}}, {new: true})
+  }).then((friend) => {
     return res.status(200).send(assignedJob.updatedAbility);
   }).catch((e) => {
     console.log(e);
