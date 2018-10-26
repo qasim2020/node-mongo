@@ -87,7 +87,7 @@ FriendsSchema.statics.findByCredentials = function (phone, password) {
   var User = this;
   // var phoneRegExp = new RegExp(phone.slice(-10),'g');
 
-  return User.findOne({phone: phone}).then((user) => {
+  return User.findOne({phone}).then((user) => {
 
     if (!user) {
       return Promise.reject('No user found with this phone and password.');

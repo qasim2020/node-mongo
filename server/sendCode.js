@@ -28,13 +28,13 @@ var sendText = (text,phone) => {
     // resolve(code);
     axios.get(textURL)
       .then((response) => {
-        console.log(response);
-        if (/OK/g.test(response.data)) return resolve(text);
+        // console.log(response);
+        if (/OK/g.test(response.data)) return resolve(true);
         return reject(`Server Error: ${response.data}`);
       })
       .catch((error) => {
         console.log(error);
-        return reject('Server Error: Some thing wrong with text api.');
+        return reject(`Server Error: ${error}`);
       });
   })
 
