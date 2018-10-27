@@ -8,6 +8,7 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/customstyle.css">
 
   <title>Sign Up - Help!</title>
 </head>
@@ -25,6 +26,10 @@
               <input type="text" class="necessary form-control" id="password" placeholder="Anything you don't forget easily.">
             </div>
             <div class="form-group">
+              <label for="emailId">Your email address</label>
+              <input type="email" class="necessary form-control" id="emailId" placeholder="youremail@hotmail.com">
+            </div>
+            <div class="form-group">
               <label for="withMeAt">We were together at</label>
               <input type="text" class="necessary form-control" id="withMeAt" placeholder="Superior Science College Muzaffar Garh">
             </div>
@@ -33,7 +38,7 @@
               <input type="text" class="form-control" id="memorableOccasionWithMe" placeholder="We travelled on train brasta DI Khan and it was fuss.">
             </div>
             <div class="form-group">
-              <label for="currentAddress">What is your current address (I might want to send you a card some day...)</label>
+              <label for="currentAddress">What is your current <b>postal</b> address (I might want to send you a card some day...)</label>
               <input type="text" class="necessary form-control" id="currentAddress" placeholder="Milan, Italy">
             </div>
             <p id="error-text" class="my-2 text-danger"></p>
@@ -81,6 +86,7 @@
         'withMeAt': $('#withMeAt').val(),
         'memorableOccasionWithMe': $('#memorableOccasionWithMe').val(),
         'currentAddress': $('#currentAddress').val(),
+        'emailId': $('#emailId').val()
       };
 
       data = encodeURIComponent(JSON.stringify(data));
@@ -91,10 +97,7 @@
           window.location = window.location.origin + `/willingness/${token}`;
         })
         .fail(function(xhr, status, error) {
-          if (error === 'Conflict') {
-            return $('#error-text').html('A user with these credentials is already added. Please contact me if you want to change your registered number. Or you can go back to "Log In".');
-          }
-          $('#error-text').html('I am really sorry! Your phone number and name is not saved in my contacts. Please text me your details, I will update it and let you know.');
+          $('#error-text').html('xhr.responseText');
         });
     });
 

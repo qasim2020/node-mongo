@@ -56,14 +56,15 @@ app.post('/check/:data',(req,res) => {
   var {name,phone} = JSON.parse(decodeURIComponent(req.params.data));
   var phoneCode = Math.floor(1000 + Math.random() * 9000);
   req.user = {phone};
-  sendCode(phoneCode,req)
-    .then(() => {
-      return findContact(name,phone);
-    })
+  findContact(name,phone)
     .then((result) => {
-      console.log(result);
-      result.phoneCode = phoneCode;
-      return newContact(result);
+      req.result = result;
+      return sendCode(phoneCode,req)
+    })
+    .then((code) => {
+      console.log(req.result);
+      req.result.phoneCode = code;
+      return newContact(req.result);
     })
     .then((resultWithToken) => {
       var user = _.pick(resultWithToken, ['name','phone','tokens']);
@@ -98,6 +99,7 @@ app.post('/checkResendCode/:token', authenticate,(req,res) => {
 })
 
 app.get('/signup/:token', authenticate, (req,res) => {
+  if (req.user.registered) return res.render('index.hbs');
   res.render('signup.hbs',{
     name: req.user.name,
   });
@@ -105,7 +107,7 @@ app.get('/signup/:token', authenticate, (req,res) => {
 
 app.post(`/signupData/:data`, customAuthenticate, (req,res) => {
   req.params.data.refId = req.user._id;
-  var body = _.pick(req.params.data,['refId','password','withMeAt','memorableOccasionWithMe','currentAddress']);
+  var body = _.pick(req.params.data,['refId','emailId','password','withMeAt','memorableOccasionWithMe','currentAddress']);
   var friendsDetails = new FriendsDetails(body);
   Friends.findOneAndUpdate({_id: req.user._id},{$set: {registered: true}},{new: true})
   .then((updatedFriend) => {

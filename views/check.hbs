@@ -8,11 +8,16 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="/customstyle.css">
 
   <title>Sign Up - Help!</title>
 </head>
 
 <body class="bg-primary">
+
+  <div id="loader" class="position-absolute d-none align-items-center justify-content-center" style="width:100%;height:100%;z-index:10">
+    <div class="loader"></div>
+  </div>
 
   <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
       <div class="col-md-6 col-12">
@@ -82,9 +87,12 @@
       };
       data = encodeURIComponent(JSON.stringify(data));
 
+      $('#loader').toggleClass('d-flex d-none');
+
       $.post(`/check/${data}`)
         .done(function(msg){
           console.log(msg);
+          $('#loader').toggleClass('d-flex d-none');
           $('#verifyButton').attr('disabled','disabled');
           $('#error-text').html('');
           $('#name').val(msg.name).attr('disabled','disabled');
@@ -95,6 +103,7 @@
         .fail(function(xhr, status, error) {
           console.log(xhr,status,error);
           $('#error-text').html(xhr.responseText);
+          $('#loader').toggleClass('d-flex d-none');
           // if (error === 'Conflict') {
           //   return $('#error-text').html('A user with these credentials is already added. Please contact me if you want to change your registered number. Or you can go back to "Log In".');
           // }
@@ -114,6 +123,7 @@
     $(document).on('keyup','#code',function() {
       val = $(this).val();
       if (val.length < 4) return;
+      $('#loader').toggleClass('d-flex d-none');
       var data = {
         token: $('#continueButton').data('token'),
         val,
@@ -122,6 +132,7 @@
 
       $.get(`/checkCode/${data}`)
         .done((msg) => {
+          $('#loader').toggleClass('d-flex d-none');
           $('#continueButton').removeAttr('disabled');
           $('#codeVerified').removeClass('d-none');
           $('#phone').val(msg.phone).attr('disabled','disabled');
@@ -130,17 +141,21 @@
         })
         .fail((xhr,status,error) => {
           console.log(error);
+          $('#loader').toggleClass('d-flex d-none');
         });
 
     })
 
     $(document).on('click','#resendButton',() => {
       var token = $('#continueButton').data('token');
+      $('#loader').toggleClass('d-flex d-none');
       $.post(`/checkResendCode/${token}`)
         .done((msg) => {
+          $('#loader').toggleClass('d-flex d-none');
           console.log(msg);
         })
         .fail((xhr,status,error) => {
+          $('#loader').toggleClass('d-flex d-none');
           console.log(error);
         });
     })

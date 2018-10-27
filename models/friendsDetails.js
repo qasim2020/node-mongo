@@ -11,6 +11,10 @@ var FriendsDetailsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  emailId: {
+    type: String,
+    required: true,
+  },
   withMeAt: {
     type: String,
     required: true

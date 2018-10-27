@@ -8,11 +8,16 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/customstyle.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
   <title>Home - Help!</title>
 </head>
 
 <body class="bg-primary">
+
+  <div id="loader" class="position-absolute d-none align-items-center justify-content-center" style="width:100%;height:100%;z-index:10">
+    <div class="loader"></div>
+  </div>
 
   <div id="mainBlock" class="d-md-flex mt-md-0 mt-3 align-items-center justify-content-center">
       <div class="col-md-6 col-12 lead">
@@ -152,7 +157,7 @@
       if ( !abilityNeeded || $('#request').val() === '' ) {
         return $('#error-text').html('Please select the person (helper) and write description of your request in above field.')
       }
-
+      $('#loader').toggleClass('d-flex d-none');
       $('#error-text').html('');
       var data = {
         abilityNeeded,
@@ -165,10 +170,12 @@
       $.post(`/homeData/${data}`,{token: "{{token}}"})
         .done((msg) => {
           console.log(msg);
+          $('#loader').toggleClass('d-flex d-none');
           location.reload();
         })
         .fail((xhr, status, error) => {
           console.log(xhr.responseText,status,error);
+          $('#loader').toggleClass('d-flex d-none');
           $('#error-text').html(xhr.responseText);
         })
       })
