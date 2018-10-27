@@ -61,8 +61,10 @@ var assignJob = (job) => {
       var url = `${process.env.URL_LINK}/newRequest/${job.assignedJobCounter}q${got.friend._id.toHexString()}`;
       return getGoogleUrl(url);
     }).then((shortUrl) => {
-      var text = `Dear ${got.friend.name}, you can help someone in need. Please check details on below link:
-${shortUrl}`;
+      var text = `Hi, Aoa, ${got.friend.name}, you can help someone in need. Please check details on below link:
+${shortUrl}
+
+Regards, Have a bright day. !`;
       got.text = text;
       return sendText(text,got.friend.phone);
     }).then((status) => {
