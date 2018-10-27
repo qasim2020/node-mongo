@@ -12,7 +12,7 @@ var FriendsSchema = new mongoose.Schema({
   credit: {
     type: Number,
     required: true,
-    default: 10,
+    default: 5,
   },
   name: {
     type: String,

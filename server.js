@@ -188,8 +188,6 @@ app.get('/home/:token', authenticate, (req,res) => {
     if (!job) return Promise.reject('no job assigned to this user');
     console.log(job);
 
-    if (!req.abilities) req.abilities = {credit : 'Willingness'};
-
     res.render('home.hbs',{
       name: req.user.name,
       token: req.user.tokens[0].token,
@@ -201,8 +199,6 @@ app.get('/home/:token', authenticate, (req,res) => {
 
   .catch((e) => {
     console.log(e);
-
-    if (!req.abilities) req.abilities = {credit : 'Willingness'};
 
     res.render('home.hbs',{
       name: req.user.name,
@@ -220,6 +216,7 @@ app.post('/homeData/:data', customAuthenticate, (req,res) => {
   body.raisedBy = req.user._id;
   body.assignedJobCounter = new Date().getTime().toString();
   var job = new Jobs(body);
+  if (req.user.credit < 1) return res.status(401).send('Your credit is low, please recharge.')
   job.save().then((gotJob) => {
     req.job = gotJob;
     return assignJob(gotJob);

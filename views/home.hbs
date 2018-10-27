@@ -20,7 +20,7 @@
 
           <div class="px-4">
             <div class="position-absolute" style="top:0.3rem;right:2rem">
-              <small><span style="cursor:pointer" data-toggle="modal" data-target=".pay-modal-lg" class="badge badge-pill badge-warning">Credit: {{credit}} left</span></small>
+              <small><span style="cursor:pointer" data-toggle="modal" data-target=".pay-modal-lg" class="badge badge-pill badge-warning" id="creditBadge">Credit: {{credit}} left</span></small>
             </div>
             <p class="lead">Welcome <b>{{name}}</b>.</p>
             <p>This is your home page. You can <a href="/willingness/{{token}}">Edit your Willingness</a> here,</p>
@@ -115,6 +115,11 @@
         $('#pendingJob').removeClass('d-none');
       };
       console.log(`{{status}}`);
+
+      if ({{credit}} === 0) {
+        $('#creditBadge').html('No Credit, Please click here').toggleClass('badge-warning badge-danger');
+        // $('#depositButton').attr('disabled',true).toggleClass('btn-primary btn-danger');
+      }
     })
 
     $(document).on('mouseenter mouseleave','.card',function() {
@@ -147,6 +152,7 @@
       if ( !abilityNeeded || $('#request').val() === '' ) {
         return $('#error-text').html('Please select the person (helper) and write description of your request in above field.')
       }
+
       $('#error-text').html('');
       var data = {
         abilityNeeded,
