@@ -9,6 +9,11 @@ var FriendsSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  credit: {
+    type: Number,
+    required: true,
+    default: 10,
+  },
   name: {
     type: String,
     required: true,

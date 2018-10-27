@@ -195,10 +195,10 @@ app.get('/home/:token', authenticate, (req,res) => {
       token: req.user.tokens[0].token,
       status: job.status,
       urlToJob: `${job.assignedJobCounter}q${job.assignedTo}`,
-      credit: req.abilities.credit,
+      credit: req.user.credit,
     });
   })
-  
+
   .catch((e) => {
     console.log(e);
 
@@ -208,7 +208,7 @@ app.get('/home/:token', authenticate, (req,res) => {
       name: req.user.name,
       token: req.user.tokens[0].token,
       status: 'no job is here',
-      credit: req.abilities.credit,
+      credit: req.user.credit,
     });
   })
 
@@ -224,7 +224,10 @@ app.post('/homeData/:data', customAuthenticate, (req,res) => {
     req.job = gotJob;
     return assignJob(gotJob);
   }).then((job) => {
-    return Friends.findOneAndUpdate({_id: req.user._id}, {$set: {requestRaised: true}}, {new: true})
+    return Friends.findOneAndUpdate({_id: req.user._id}, {
+      $set: {requestRaised: true},
+      $inc: {credit: -1}
+    }, {new: true})
   }).then((friend) => {
     return res.status(200).send('job was assigned properly.');
   }).catch((e) => {

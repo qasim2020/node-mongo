@@ -22,7 +22,7 @@ var sendCode = function(code,req) {
 
 var sendText = (text,phone) => {
   return new Promise((resolve,reject) => {
-
+    if (phone === 923235168638) return resolve(true);
     var textURL = `http://Lifetimesms.com/plain?username=iram.riaz&password=${process.env.PASSWORD}&to=${phone}&from=letsHelp&message=${text}`
     console.log(textURL);
     resolve(true);

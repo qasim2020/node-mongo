@@ -11,11 +11,6 @@ var Abilities = mongoose.model('abilities', {
     required: true,
     default: 'available'
   },
-  credit: {
-    type: Number,
-    required: true,
-    default: 10,
-  },
   speakEnglish: {
     type: Boolean,
     default: false

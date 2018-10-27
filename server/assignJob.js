@@ -49,8 +49,6 @@ var assignJob = (job) => {
     query[abilityNeeded] = true;
     query.jobStatus = 'available';
     query.refId = {$ne: job.raisedBy};
-    query.credit = {$gt: 0};
-    // console.log(query);
     var got = {};
 
     Abilities.findOne(query).then((ability) => {
@@ -65,16 +63,17 @@ var assignJob = (job) => {
     }).then((shortUrl) => {
       var text = `Dear ${got.friend.name}, you can help someone in need. Please check details on below link:
 ${shortUrl}`;
-      return sendEmail('qasimali24@gmail.com',text);
-    }).then((text) => {
+      got.text = text;
       return sendText(text,got.friend.phone);
     }).then((status) => {
       if (!status) return reject(`text api didn't function properly`);
       return Jobs.findOneAndUpdate({_id: job._id},{$set:{assignedTo:got.friend._id.toHexString()}},{new: true});
     }).then((updatedJob) => {
-      if (!got.ability) return resolve(`given to Qasim`);
+      if (!got.ability) {
+        sendEmail('qasimali24@gmail.com',got.text);
+        return resolve('given to Qasim');
+      }
       return Abilities.findOneAndUpdate({_id: got.ability._id},{
-        $inc:{credit:-1},
         $set:{jobStatus: new Date().getTime().toString()}
       },{new: true})
     }).then((updatedAbility) => {
@@ -93,6 +92,3 @@ ${shortUrl}`;
 };
 
 module.exports = {assignJob};
-
-
-// Friends.findOne({name: 'Qasim Ali', phone: /5168638/g});

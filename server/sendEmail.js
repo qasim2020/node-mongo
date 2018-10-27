@@ -18,7 +18,7 @@ var sendEmail = (toEmail,text) => {
 
         // setup email data with unicode symbols
         let mailOptions = {
-            from: '"Request Raised 👻" <letshelp@email.com>', // sender address
+            from: '"Request Raised" <letshelp@email.com>', // sender address
             to: toEmail, // list of receivers
             subject: 'Hello ✔', // Subject line
             text: text, // plain text body
