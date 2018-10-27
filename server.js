@@ -12,7 +12,7 @@ const {Abilities} = require('./models/abilities');
 const {FriendsDetails} = require('./models/friendsDetails');
 const {Jobs} = require('./models/jobs');
 
-const {authenticate, customAuthenticate, jobAuthenticate} = require('./server/authenticate');
+const {authenticate, customAuthenticate, jobAuthenticate, url} = require('./server/authenticate');
 const {findContact} = require('./server/findContact');
 const {newContact} = require('./server/newContact');
 const {sendCode} = require('./server/sendCode');
@@ -178,22 +178,15 @@ app.get('/home/:token', authenticate, (req,res) => {
       res.status(401).send();
     })
   }
+
   else if (!req.user.registered) {
-    console.log('not registered so directing to signup.hbs');
+    console.log('not registered yet so directing to signup.hbs');
     return res.render('signup.hbs');
   }
 
   Jobs.findOne({assignedTo: req.user._id, status:/pending|beingSolved/g}).then((job) => {
-    if (!job) return Promise.reject('no job found');
+    if (!job) return Promise.reject('no job assigned to this user');
     console.log(job);
-    var urlToJob = () => {
-      var urlPair = {
-        jobTo: req.user._id.toHexString(),
-        jobIs: job._id.toHexString(),
-      };
-      urlPair = encodeURIComponent(JSON.stringify(urlPair));
-      return urlPair;
-    }
 
     if (!req.abilities) req.abilities = {credit : 'Willingness'};
 
@@ -201,10 +194,12 @@ app.get('/home/:token', authenticate, (req,res) => {
       name: req.user.name,
       token: req.user.tokens[0].token,
       status: job.status,
-      urlToJob,
+      urlToJob: `${job.assignedJobCounter}q${job.assignedTo}`,
       credit: req.abilities.credit,
     });
-  }).catch((e) => {
+  })
+  
+  .catch((e) => {
     console.log(e);
 
     if (!req.abilities) req.abilities = {credit : 'Willingness'};
@@ -231,7 +226,7 @@ app.post('/homeData/:data', customAuthenticate, (req,res) => {
   }).then((job) => {
     return Friends.findOneAndUpdate({_id: req.user._id}, {$set: {requestRaised: true}}, {new: true})
   }).then((friend) => {
-    return res.status(200).send(assignedJob.updatedAbility);
+    return res.status(200).send('job was assigned properly.');
   }).catch((e) => {
     console.log(e);
     req.error = e;
@@ -250,7 +245,6 @@ app.post('/finishRequest/:data', customAuthenticate, (req,res) => {
     return Jobs.findOneAndUpdate({raisedBy: req.user._id, status: /pending|beingSolved/g}, {$set: {status: body.requestStatus}}, {new: true});
   })
   .then((job) => {
-    console.log(job);
     res.status(200).send(job);
   })
   .catch((e) => {
@@ -261,7 +255,6 @@ app.post('/finishRequest/:data', customAuthenticate, (req,res) => {
 
 app.get('/logout/:token', authenticate, (req,res) => {
   Friends.findOneAndUpdate({_id:req.user._id},{$unset: {tokens:1}},{new:true}).then((user) => {
-    console.log(user);
     res.render('index.hbs');
   }).catch((e) => {
     res.status(400).send();
@@ -269,13 +262,6 @@ app.get('/logout/:token', authenticate, (req,res) => {
 })
 
 app.get('/newRequest/:jobCredentials',jobAuthenticate,(req,res) => {
-
-  var url = () => {
-    if  (!req.assignedTo.tokens.length) return '';
-    return `home/` + req.assignedTo.tokens[0].token;
-  };
-
-  console.log(url());
 
   Friends.findOne({_id: req.job.raisedBy}).then((friend) => {
     console.log('====job requested by assignedTo====')
@@ -290,12 +276,13 @@ app.get('/newRequest/:jobCredentials',jobAuthenticate,(req,res) => {
       timeStamp: req.job._id.getTimestamp().getTime(),
       assignedTo: req.assignedTo.name,
       remainingTime: req.job.assignedJobCounter,
-      homeURL: url(),
+      homeURL: req.homeURL,
     });
+
   }).catch((e) => {
     console.log(e);
     res.render('jobNotAvailable.hbs',{
-      homeURL: url(),
+      homeURL: req.homeURL,
     });
   });
 

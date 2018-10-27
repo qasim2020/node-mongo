@@ -3,7 +3,7 @@ const {mongoose} = require('./../db/mongoose');
 
 var findContact = (a,b) => {
   return new Promise((resolve,reject) => {
-    var enteredName = a.trim();
+    var enteredName = a.trim().replace(' ','|');
     var enteredPhone = b.trim();
     var phone = enteredPhone.replace(' ','').trim().slice(-10);
 
@@ -33,7 +33,7 @@ var findContact = (a,b) => {
       });
       var result = {
         refId: obj._id.toHexString(),
-        name: obj.Name,
+        name: a.trim(),
         phone: enteredPhone,
       };
 

@@ -12,19 +12,26 @@ var customAuthenticate = (req,res,next) => {
 }
 
 var jobAuthenticate = (req,res,next) => {
-  urlPair = JSON.parse(decodeURIComponent(req.params.jobCredentials));
-  if (!urlPair) return res.render('jobNotAvailable.hbs');
-  Jobs.findOne({assignedTo: urlPair.jobTo, _id: urlPair.jobIs}).then((job) => {
+  jobRx = req.params.jobCredentials.split('q');
+  assignedJobCounter = jobRx[0];
+  assignedTo = jobRx[1];
+  console.log('job Recieved',jobRx);
+  if (!jobRx[1] || !jobRx[0]) {
+    res.render('jobNotAvailable.hbs');
+  };
+  Jobs.findOne({assignedJobCounter}).then((job) => {
     req.job = job;
-    return Friends.findById(urlPair.jobTo);
+    var id = mongoose.Types.ObjectId(assignedTo);
+    return Friends.findById(id);
   }).then((friend) => {
     req.assignedTo = friend;
-    if (!req.job) return Promise.reject('No job found.');
+    req.homeURL = url(req);
+    if (!req.job) return Promise.reject('No job found with this job counter.');
     next();
   }).catch((e) => {
     console.log(e);
     res.render('jobNotAvailable.hbs',{
-      homeURL: url(req),
+      homeURL: req.homeURL,
     });
   });
 }
@@ -53,4 +60,4 @@ var authenticate = (req,res,next) => {
     });
 }
 
-module.exports = {authenticate, customAuthenticate, jobAuthenticate};
+module.exports = {authenticate, customAuthenticate, jobAuthenticate, url};

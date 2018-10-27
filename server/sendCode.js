@@ -23,19 +23,19 @@ var sendCode = function(code,req) {
 var sendText = (text,phone) => {
   return new Promise((resolve,reject) => {
 
-    var textURL = `http://Lifetimesms.com/plain?username=famousfakir&password=1234!qasim&to=${phone}&from=letsHelp&message=${text}`
+    var textURL = `http://Lifetimesms.com/plain?username=iram.riaz&password=${process.env.PASSWORD}&to=${phone}&from=letsHelp&message=${text}`
     console.log(textURL);
-    // resolve(code);
-    axios.get(textURL)
-      .then((response) => {
-        // console.log(response);
-        if (/OK/g.test(response.data)) return resolve(true);
-        return reject(`Server Error: ${response.data}`);
-      })
-      .catch((error) => {
-        console.log(error);
-        return reject(`Server Error: ${error}`);
-      });
+    resolve(true);
+    // axios.get(textURL)
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     if (/OK/g.test(response.data)) return resolve(true);
+    //     return reject(`Server Error: ${response.data}`);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     return reject(`Server Error: ${error}`);
+    //   });
   })
 
 }

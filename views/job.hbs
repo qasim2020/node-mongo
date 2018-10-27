@@ -39,8 +39,6 @@
 
               <p id="error-text" class="my-2 text-danger"></p>
 
-              <h6 id="taggedTo" class="lead d-none">Thanks <b>{{assignedTo}}</b>. Please ask {{raisedByName}} to update this request flag once it is resolved.</h6>
-
             </div>
           </div>
 
@@ -74,14 +72,14 @@
 
       if ( 'beingSolved' === '{{status}}') {
         $('#beingSolved').addClass('d-none');
-        $('#taggedTo').removeClass('d-none');
+        $('#statusTime').html(`Thanks <b>{{assignedTo}}</b>. Please ask <b>{{raisedByName}}</b> to update this request flag once it is resolved.`).removeClass('text-muted').addClass('text-primary');
         $('#headingBlock').addClass('text-muted');
       }
 
       if (/solved|cancelled/g.test('{{status}}')) {
         $('.btn').attr('disabled',true);
         $('#welcomeText').addClass('text-muted');
-        $('#statusTime').html(`This request has been marked <b>{{status}}</b> by {{raisedByName}}.`).removeClass('text-muted').addClass('text-primary text-capitalize');
+        $('#statusTime').html(`This request has been marked <span class="text-capitalize"><b>{{status}}</b></span> by {{raisedByName}}.`).removeClass('text-muted').addClass('text-primary');
       };
 
       console.log('{{status}}');
@@ -114,17 +112,12 @@
 
         if ( 'beingSolved' === '{{status}}') {
           $('#beingSolved').addClass('d-none');
-          $('#taggedTo').removeClass('d-none');
           $('#headingBlock').addClass('text-muted');
         }
 
         $('#showTimeonButton').html(`${59 - showTimeonButton.mins}:${59 - showTimeonButton.seconds}`);
 
       }, 1000);
-
-    });
-
-    $(document).ready(function() {
 
     });
 

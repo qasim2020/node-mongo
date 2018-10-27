@@ -157,7 +157,7 @@
       };
       data = encodeURIComponent(JSON.stringify(data));
 
-      $.post(`/homeData/${data}`)
+      $.post(`/homeData/${data}`,{token: "{{token}}"})
         .done((msg) => {
           console.log(msg);
           location.reload();
