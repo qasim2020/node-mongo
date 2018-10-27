@@ -2,6 +2,7 @@ const {mongoose} = require('./../db/mongoose');
 const {Jobs} = require('./../models/jobs');
 const {Abilities} = require('./../models/abilities');
 const {assignJob} = require('./assignJob');
+const {sendEmail} = require('./sendEmail');
 
 var serverRunning = () => {
 
@@ -18,7 +19,12 @@ var serverRunning = () => {
     if (unHandledRequest) {
       Jobs.findOneAndUpdate({_id: unHandledRequest._id},{$set: {status: 'urgented'}},{new: true})
       .then((updatedJob) => {
-        // TODO: text Qasim to contact Initiator
+        return sendEmail('qasimali24@gmail.com',`Qasim this job has been urgented, please check. <br><br>
+        <b>id: ${updatedJob._id}</b><br>
+        <b>request: ${updatedJob.request}</b><br>
+        <b>status: ${updatedJob.status}</b><br>
+        <b>raisedBy: ${updatedJob.raisedBy}</b><br>
+        <b>last assigned to: ${updatedJob.assignedTo}</b><br>`,'Urgented');
         return setTimeout(() => serverRunning(),1000);
       }).catch((e) => {
         console.log(e);
@@ -75,6 +81,7 @@ var serverRunning = () => {
     return setTimeout(() => serverRunning(),1000);
   }).catch((e) => {
     console.log(e);
+    return setTimeout(() => serverRunning(),1000);
   })
 
 }

@@ -52,7 +52,6 @@ var authenticate = (req,res,next) => {
       console.log('authenticated');
       return Abilities.findOne({refId: user._id});
     }).then((abilities) => {
-      console.log(abilities);
       req.abilities = abilities;
       next();
     }).catch((e) => {

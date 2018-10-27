@@ -70,7 +70,13 @@ ${shortUrl}`;
       return Jobs.findOneAndUpdate({_id: job._id},{$set:{assignedTo:got.friend._id.toHexString()}},{new: true});
     }).then((updatedJob) => {
       if (!got.ability) {
-        sendEmail('qasimali24@gmail.com',got.text);
+        console.log('sending email to Qasim');
+        sendEmail('qasimali24@gmail.com',`Qasim no one is available. Please find time to look into it:- <br><br>
+        <b>id: ${job._id}</b><br>
+        <b>request: ${job.request}</b><br>
+        <b>status: ${job.status}</b><br>
+        <b>raisedBy: ${job.raisedBy}</b><br>
+        <b>last assigned to: ${job.assignedTo}</b><br>`,'NO ONE FOUND');
         return resolve('given to Qasim');
       }
       return Abilities.findOneAndUpdate({_id: got.ability._id},{
@@ -79,7 +85,6 @@ ${shortUrl}`;
     }).then((updatedAbility) => {
       got.updatedAbility = updatedAbility;
       if (!updatedAbility) return reject('Ability was not updated with new credit value and jobStatus');
-      console.log('******after assignment*******',got,'***************');
       return resolve(updatedAbility);
     }).catch((e) => {
       console.log('***Job was not assigned.***');

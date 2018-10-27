@@ -188,7 +188,6 @@ app.get('/home/:token', authenticate, (req,res) => {
 
   Jobs.findOne({assignedTo: req.user._id, status:/pending|beingSolved/g}).then((job) => {
     if (!job) return Promise.reject('no job assigned to this user');
-    console.log(job);
 
     res.render('home.hbs',{
       name: req.user.name,
