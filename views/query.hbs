@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/customstyle.css">
+  <style media="screen">
+
+    /* border-left: 4px dotted #0e93cc; */
+    /* background: rgb(15, 147, 204); */
+
+
+    /* $color1: rgba(91, 192, 235, 1);
+    $color2: rgba(253, 231, 76, 1);
+    $color3: rgba(155, 197, 61, 1);
+    $color4: rgba(229, 89, 52, 1);
+    $color5: rgba(250, 121, 33, 1); */
+
+    .btn-submit {
+      background: rgb(15, 147, 204);
+      color: white;
+    }
+
+    textarea {
+      outline: 0px none transparent;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      padding: 2rem;
+      font-size: 400%;
+      font-weight: bold;
+      z-index: 0;
+      background: none;
+    }
+
+    .overlay {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: white;
+      font-size: 400%;
+      font-weight: bold;
+      opacity: 0.6;
+      padding: 2rem;
+      pointer-events: none;
+      z-index: -10;
+    }
+
+    textarea:focus{
+        outline: 0;
+    }
+
+    *:focus {
+      outline: 0;
+    }
+
+    .counter {
+      position: fixed;
+      left: 50%;
+      bottom: 3rem;
+      transform: translate(-50%, -50%);
+      font-weight: 900;
+      font-size: 300%;
+      line-height: 0;
+      color: #bd2231;
+    }
+
+    .btn-submit {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    padding: 1rem 3rem;
+    font-weight: bold;
+    font-size: 200%;
+    }
+
+  </style>
+
+  <title>Welcome - help!</title>
+</head>
+
+<body class="bg-light">
+
+    <div class="custom-container">
+
+      <div class="overlay">
+        Type anything you want to find an answer to. <br>
+        Find a person who will talk to you. <br>
+        Value your job yourself. <br>
+        Let your query roll around the world.
+      </div>
+      <textarea name="name" rows="8" placeholder=""></textarea>
+      <button type="button" name="button" class="btn btn-lg btn-submit">Ask Now !</button>
+      <div class="counter"><span>71</span></div>
+
+    </div>
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    wht = $(window).height();
+    $('#mainBlock').height(wht);
+  </script>
+</body>
+
+</html>

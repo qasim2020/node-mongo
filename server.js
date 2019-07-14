@@ -30,6 +30,10 @@ app.get('/',(req,res) => {
   res.render('index.hbs');
 })
 
+app.get('/query',(req,res) => {
+  res.render('query.hbs');
+})
+
 app.get('/timeline',(req,res) => {
   res.render('timeline.hbs');
 })
