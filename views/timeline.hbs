@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/customstyle.css">
+  <style media="screen">
+    .issue-card {
+      margin: 4rem 2rem;
+    }
+
+    .vertical-line {
+      border-left: 4px dotted #0e93cc;
+    height: 90%;
+    position: fixed;
+    margin-left: 3rem;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    }
+
+    .card-area {
+      font-weight: bold;
+      margin-left: 2rem;
+      padding: 2rem 2rem 1rem 2rem;
+      margin-top: -2rem;
+      width: 100%;
+    }
+
+    .line-circle {
+      width: 85px !important;
+    height: 35px !important;
+    margin-left: 0px;
+    z-index: 5;
+    background: white;
+    }
+
+    .top-badge {
+    display: inline;
+    background: rgb(15, 147, 204);
+    color: #f8f9fa;
+    padding: 2px 9px;
+    font-weight: bold;
+    border-radius: 2px;
+    font-size: 80%;
+    }
+
+    .middle-text {
+    padding-top: 1rem;
+    font-size: 120%;
+    /* font-style: italic; */
+    }
+
+    .bottom-badge, .loc-badge {
+    opacity: 0.7;
+    font-size: 80%;
+    }
+
+    /* $color1: rgba(91, 192, 235, 1);
+    $color2: rgba(253, 231, 76, 1);
+    $color3: rgba(155, 197, 61, 1);
+    $color4: rgba(229, 89, 52, 1);
+    $color5: rgba(250, 121, 33, 1); */
+
+    .red-flag {
+      color: red;
+    }
+
+    .good-flag {
+      color: green;
+    }
+
+    .vgood-flag {
+      font-size: 120%;
+      color: green;
+    }
+
+    .pt-3 {
+      padding-top: 3rem;
+    }
+
+    .custom-container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+  </style>
+
+  <title>Welcome - help!</title>
+</head>
+
+<body class="bg-light">
+
+    <div class="custom-container">
+
+        <div class="vertical-line shadow"></div>
+
+        <div class="issue-card d-flex justify-content-start">
+          <span class="line-circle rounded-cicle shadow rounded"></span>
+          <div class="card-area shadow rounded">
+            <p class="top-badge">Issue Raised for 4 USD</p>
+            <p class="middle-text">I am feeling down a little. I would love to listen to someone who can councel me for sometime. I will be so indebted. Thanks.</p>
+            <p class="bottom-badge">by Sara</p>
+            <p class="loc-badge">at 2134 hrs on 3 Jul 2019 from Islamabad Pakistan</p>
+          </div>
+        </div>
+
+        <div class="issue-card d-flex justify-content-start">
+          <span class="line-circle rounded-cicle shadow rounded"></span>
+          <div class="card-area shadow rounded">
+            <p class="bottom-badge">Issue <span class="red-flag">Declined</span> by Qasim at 2234 hrs on 3 Jul 2019 from Sydney Australia.</p>
+          </div>
+        </div>
+
+        <div class="issue-card d-flex justify-content-start">
+          <span class="line-circle rounded-cicle shadow rounded"></span>
+          <div class="card-area shadow rounded">
+            <p class="bottom-badge">Got <span class="red-flag">No Response</span> from Daniel at 0434 hrs on 4 Jul 2019 from London Uk.</p>
+          </div>
+        </div>
+
+        <div class="issue-card d-flex justify-content-start">
+          <span class="line-circle rounded-cicle shadow rounded"></span>
+          <div class="card-area shadow rounded">
+            <p class="bottom-badge">Peter <span class="good-flag">Affirmated</span> at 0634 hrs on 4 Jul 2019 from Bali Indonesia.</p>
+            <p class="middle-text">I am calling you in 2 hours after office. Please hold on for few moments.</p>
+          </div>
+        </div>
+
+        <div class="issue-card d-flex justify-content-start">
+          <span class="line-circle rounded-cicle shadow rounded"></span>
+          <div class="card-area shadow rounded">
+            <p class="bottom-badge">Issue resolved as confirmed by Qasim and Peter at 0750 hrs on 4 Jul 2019.</p>
+            <p class="top-badge">Issue Resolved for 4 USD</p>
+          </div>
+        </div>
+
+  </div>
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    wht = $(window).height();
+    $('#mainBlock').height(wht);
+  </script>
+</body>
+
+</html>
