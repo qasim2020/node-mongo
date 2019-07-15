@@ -34,6 +34,10 @@ app.get('/query',(req,res) => {
   res.render('query.hbs');
 })
 
+app.get('/info',(req,res) => {
+  res.render('info.hbs');
+})
+
 app.get('/timeline',(req,res) => {
   res.render('timeline.hbs');
 })
