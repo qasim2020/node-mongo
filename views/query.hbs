@@ -28,22 +28,21 @@
 
     textarea {
       outline: 0px none transparent;
-      width: 100vw;
-      height: 100vh;
+      height: 100%;
       border: none;
-      padding: 2rem;
+      width: 100%;
+padding: 1rem;
       font-size: 400%;
       font-weight: bold;
       z-index: 0;
       background: none;
+      resize: none;
     }
 
     .overlay {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background: white;
-      font-size: 400%;
+      position: absolute;
+      width: 100%;
+      height: 100%;
       font-weight: bold;
       opacity: 0.6;
       padding: 2rem;
@@ -59,24 +58,44 @@
       outline: 0;
     }
 
-    .counter {
-      position: fixed;
-      left: 50%;
-      bottom: 3rem;
-      transform: translate(-50%, -50%);
-      font-weight: 900;
-      font-size: 300%;
-      line-height: 0;
-      color: #bd2231;
+    .t-general {
+      padding: 1rem;
     }
 
-    .btn-submit {
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    padding: 1rem 3rem;
-    font-weight: bold;
-    font-size: 200%;
+    .counter {
+      font-weight: 900;
+      font-size: 300%;
+    }
+
+    .button-press {
+      background: white;
+      position: absolute;
+      right: 2rem;
+      color: cornflowerblue;
+      bottom: 1rem;
+      cursor: pointer;
+    }
+
+    .button-press:hover {
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .btn-query {
+      font-size: 150%;
+      font-weight: bold;
+      color: cornflowerblue;
+      margin-top: -1rem;
+      margin-bottom: 6px;
+      padding: 6px 12px;
+    }
+
+    .button-press small {
+      margin-top: -1rem;
+    }
+
+    .custom-container {
+      max-width: 1200px;
+      margin: auto;
     }
 
   </style>
@@ -86,17 +105,22 @@
 
 <body class="bg-light">
 
-    <div class="custom-container">
+    <div class="custom-container position-relative">
 
-      <div class="overlay">
-        Type anything you want to find an answer to. <br>
-        Find a person who will talk to you. <br>
-        Value your job yourself. <br>
-        Let your query roll around the world.
+      <div class="overlay d-flex flex-column justify-content-center align-items-center">
+        <p class="t-general t-1 shadow" >Type anything you want to find an answer to. </p>
+        <p class="t-general t-2 shadow" >Find a person who will talk to you. </p>
+        <p class="t-general t-3 shadow" >Value your job yourself. </p>
+        <p class="t-general t-4 shadow" >Let your query roll around the world.</p>
       </div>
-      <textarea name="name" rows="8" placeholder=""></textarea>
-      <button type="button" name="button" class="btn btn-lg btn-submit">Ask Now !</button>
-      <div class="counter"><span>71</span></div>
+      <textarea name="name" rows="8" placeholder="Write here..."></textarea>
+      <!-- <button type="button" name="button" class="btn btn-lg btn-submit">Ask Now !</button> -->
+      <div class="button-press shadow rounded d-flex flex-column justify-content-center text-center">
+        <p class="counter">218</p>
+        <small>words left</small>
+        <hr width="50%">
+        <p class="btn-query" >Ask Now !</p>
+      </div>
 
     </div>
 
@@ -110,6 +134,15 @@
   <script type="text/javascript">
     wht = $(window).height();
     $('#mainBlock').height(wht);
+
+    $('textarea').on('keydown',function(){
+      $('.overlay').css({opacity: 0});
+    });
+
+    $('textarea').on('keyup',function(){
+      if ($(this).val().length < 1) $('.overlay').css({opacity:1});
+      $('.counter').html(`${218 - $(this).val().length}`);
+    })
   </script>
 </body>
 
