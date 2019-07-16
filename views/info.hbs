@@ -110,6 +110,7 @@ padding: 1rem;
 
 
       <style media="screen">
+
         .custom-modal {
           position: fixed;
           width: 100vw;
@@ -122,24 +123,31 @@ padding: 1rem;
           grid-template-columns: 1fr 1fr;
           grid-template-rows: auto;
         }
+
+        label {
+
+        }
+
+        .custom-input {
+          background: none;
+          padding: 1rem 2rem;
+          font-weight: bold;
+          font-size: 150%;
+          border-radius: 3px;
+          border: none;
+        }
       </style>
 
-      <div class="custom-modal bg-light d-flex align-items-center justify-content-center">
-        <div class="d-grid">
-          <p>Your Name</p>
-          <input type="text" name="" value="Qasim">
-          <p>Card No</p>
-          <input type="text" name="" value="">
-          <p>Card Expiry</p>
-          <input type="text" name="" value="">
-          <p>CVC</p>
-          <input type="text" name="" value="">
-          <p>Commitment to pay for an answer</p>
-          <input type="text" name="" value="">
-        </div>
+      <div class="custom-modal bg-light d-flex flex-column align-items-center justify-content-center">
 
+        <input class="custom-input" type="text" name="" value="Qasim">
 
-    </div>
+        <input class="custom-input" type="text" name="" value="">
+        <input class="custom-input" type="text" name="" value="">
+
+        <button class="btn-custom-submit shadow" type="button" name="button">Pay 5 USD</button>
+
+      </div>
 
 
 
